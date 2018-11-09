@@ -10,11 +10,14 @@ const electronLocalshortcut = require('electron-localshortcut');
 let mainWindow;
 
 function createWindow() {
-  mainWindow = new BrowserWindow();
+  mainWindow = new BrowserWindow({
+    icon: path.join(__dirname, 'icon.png')
+  });
   mainWindow.maximize();
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
   mainWindow.on('closed', () => mainWindow = null);
 
+  electronLocalshortcut.unregister(mainWindow, 'CommandOrControl+H');
   electronLocalshortcut.register(mainWindow, 'CommandOrControl+O', () => {
     mainWindow.webContents.send('keyPress', 'CommandOrControl+O')
   });
@@ -34,7 +37,7 @@ function createWindow() {
   electronLocalshortcut.register(mainWindow, 'Backspace', () => {
     mainWindow.webContents.send('keyPress', 'Backspace');
   });
-  
+
 }
 
 app.on('ready', createWindow);
