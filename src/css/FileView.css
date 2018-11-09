@@ -1,0 +1,97 @@
+#file-contents pre {
+    margin: 0;
+    line-height: 1.3;
+    color: black;
+    display: block;
+    cursor: text;
+    font-family: "Courier";
+    font-size: 10pt;
+}
+.top-bar {
+    border-bottom: 1px solid gray;
+    height: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 99%;
+    padding: 5px 10px;
+    background: #fff;
+    text-align: right;
+}
+#file-contents {
+    margin-top: 30px;
+    padding-top: 10px;
+    margin-bottom: 150px;
+}
+#file-contents td.line.selected pre {
+    background: dodgerblue;
+    color: white;
+    line-height: 1.5;
+    font-weight: bold;
+}
+#file-contents .line-no {
+    padding-left: 10px;
+    background: silver;
+    text-align: right;
+    max-width: 1px;
+}
+#file-contents table {
+    border-collapse: collapse;
+    width: 100%;
+}
+#file-contents .line pre {
+    padding-left: 10px;
+}
+
+#loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    font-family: Courier;
+}
+#add-filter-text {
+    width: 80%;
+    font-size: 10pt;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.opt-1 {
+    background: blue;
+    color: white!important;
+}
+
+.opt-2 {
+    background: red;
+    color: white!important;
+}
+
+#filters {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    border-top: 4px solid black;
+    max-height: 150px;
+    overflow-y: auto;
+    width: 100%;
+    background: white;
+    min-height: 150px;
+}
+
+#filters table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#filters table tr.filter.selected {
+    border: 2px solid gray;
+}
+
+#file-contents table.filters-applied td.line pre:not(.selected):not(.filter-match) {
+    color: gray;
+}
+
+#add-filter-form {
+    width: 600px;
+}
