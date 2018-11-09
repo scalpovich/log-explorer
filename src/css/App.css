@@ -1,0 +1,19 @@
+#open-file-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  text-align: center;
+  border: 1px solid gray;
+  padding: 25px;
+  border-radius: 5px;
+  padding-bottom: 50px;
+}
+#open-file-container input {
+  background: rebeccapurple;
+  color: white;
+  padding: 5px 10px;
+  font-size: 13px;
+  border: 1px solid yellow;
+  border-radius: 5px;
+}
