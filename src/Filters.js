@@ -52,6 +52,7 @@ class Filters extends Component {
                              fileName={this.state.fileName}
                              getFilters={this.props.getFilters}
                              deleteFilter={this.deleteFilter.bind(this)}
+                             filterDoubleClickHandler={this.props.filterDoubleClickHandler}
                              filterChanged={this.props.filterChanged} />
             })
           }

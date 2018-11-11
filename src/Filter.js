@@ -24,6 +24,13 @@ class Filter extends Component {
     this.props.filterChanged();
   }
 
+  unSelect() {
+    let filters = this.props.getFilters();
+    filters.forEach(f => f.selected = false);
+    localStorage[this.state.fileName] = JSON.stringify(filters);
+    this.props.filterChanged();
+  }
+
   select(filter) {
     let filters = this.props.getFilters();
     filters.forEach(f => f.selected = false);
@@ -53,6 +60,10 @@ class Filter extends Component {
     let moveUp = () => this.move(this.state.filter, true);
     let moveDown = () => this.move(this.state.filter, false);
     let deleteFilter = () => this.deleteFilter(this.state.filter);
+    let handleDoubleClick = () => {
+      this.unSelect();
+      this.props.filterDoubleClickHandler(this.state.filter)
+    };
 
     return (
       <tr className={'filter ' + this.state.filter.class + (this.state.filter.selected ? ' selected' : ' ')}>
@@ -74,7 +85,7 @@ class Filter extends Component {
             <button className={"move-down"} onClick={moveDown}><i className={"arrow down"}></i></button>
           }
         </td>
-        <td onClick={select}>{this.state.filter.text}</td>
+        <td onClick={select} onDoubleClick={handleDoubleClick}>{this.state.filter.text}</td>
         <td width="50px;">{this.state.filter.matchCount}</td>
       </tr>
     );

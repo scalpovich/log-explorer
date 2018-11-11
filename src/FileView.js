@@ -28,10 +28,12 @@ class FileView extends Component {
       fileName: props.fileName,
       fileData: [],
       selectedLine: null,
-      addFilterModalOpen: false,
       filters: [],
       filtersApplied: true,
-      showOnlyFiltered: false
+      showOnlyFiltered: false,
+      addFilterModal : {
+        open: false
+      }
     };
     this.readFileData();
     window.require('electron').ipcRenderer.on('keyPress', (event, message) => {
@@ -44,7 +46,9 @@ class FileView extends Component {
           break;
         case 'CommandOrControl+N':
           this.setState({
-            addFilterModalOpen: true
+            addFilterModal: {
+              open: true
+            }
           });
           break;
         case 'Up':
@@ -105,8 +109,12 @@ class FileView extends Component {
 
   lineClickHandler(line) {
     this.setState(state => {
-      if (state.selectedLine)
+      if (state.selectedLine && state.selectedLine.selected){
         state.selectedLine.selected = false;
+        if (state.selectedLine.key === line.key) {
+          return state;
+        }
+      }
       state.selectedLine = line;
       state.selectedLine.selected = true;
       return state;
@@ -115,14 +123,18 @@ class FileView extends Component {
 
   lineDoubleClickHandler(line) {
     this.setState({
-      addFilterModalOpen: true,
-      addFilterModalText: line.text
+      addFilterModal: {
+        open: true,
+        text: line.text
+      }
     });
   }
 
   closeAddFilterModal() {
     this.setState({
-      addFilterModalOpen: false
+      addFilterModal: {
+        open: false
+      }
     });
   }
 
@@ -149,6 +161,15 @@ class FileView extends Component {
     });
   }
 
+  filterDoubleClickHandler(filter) {
+    this.setState({
+      addFilterModal: {
+        open: true,
+        key: filter.key
+      }
+    });
+  }
+
   render() {
     return (
       <div id="analyzer">
@@ -168,9 +189,9 @@ class FileView extends Component {
         <Filters filters={this.state.filters}
                  fileName={this.state.fileName}
                  getFilters={getFilters}
+                 filterDoubleClickHandler={this.filterDoubleClickHandler.bind(this)}
                  filterChanged={this.filterChanged.bind(this)} />
-        <AddFilterModal open={this.state.addFilterModalOpen}
-                        text={this.state.addFilterModalText}
+        <AddFilterModal args={this.state.addFilterModal}
                         fileName={this.state.fileName}
                         fileData={this.state.fileData}
                         getFilters={getFilters}

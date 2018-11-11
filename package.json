@@ -45,7 +45,17 @@
     ],
     "directories": {
       "buildResources": "assets"
-    }
+    },
+    "fileAssociations" : [
+      {
+        "ext": "txt",
+        "role": "Editor"
+      },
+      {
+        "ext": "log",
+        "role": "Editor"
+      }
+    ]
   },
   "author": "Naved Rangwala"
 }

@@ -43,15 +43,22 @@ class AddFilterModal extends Component {
     event.preventDefault();
     if (this.textInput) {
       let filters = this.state.getFilters();
-      filters.push({
-        key: guid(),
-        text: this.textInput.value,
-        class: this.colorSelect.value,
-        enabled: true,
-        exclude: false,
-        selected: false,
-        matchCount: this.state.fileData.filter(f => f.text.toLowerCase().match(this.textInput.value.toLowerCase())).length
-      });
+      if (this.state.args.key) {
+        let filter = filters.find(f => f.key === this.state.args.key);
+        filter.text = this.textInput.value;
+        filter.class = this.colorSelect.value
+      } else {
+        // add
+        filters.push({
+          key: guid(),
+          text: this.textInput.value,
+          class: this.colorSelect.value,
+          enabled: true,
+          exclude: false,
+          selected: false,
+          matchCount: this.state.fileData.filter(f => f.text.toLowerCase().match(this.textInput.value.toLowerCase())).length
+        });
+      }
       localStorage[this.state.fileName] = JSON.stringify(filters);
       this.props.closeModal();
       this.props.filterChanged();
@@ -61,13 +68,25 @@ class AddFilterModal extends Component {
   afterOpenModal() {
     this.textInput.focus();
     this.textInput.select();
+
+    if (this.state.args.key) {
+      let filter = this.getFilter(this.state.args.key);
+      if (filter) {
+        this.textInput.value = filter.text;
+        this.colorSelect.value = filter.class;
+      }
+    }
+  }
+
+  getFilter(key) {
+    return this.state.getFilters().find(f => f.key === key);
   }
 
   render() {
     let closeModal = () => this.props.closeModal();
 
     return (
-      <Modal isOpen={this.state.open}
+      <Modal isOpen={this.state.args.open}
              onRequestClose={closeModal}
              onAfterOpen={this.afterOpenModal.bind(this)}
              style={addFilterModalStyle}
@@ -77,10 +96,12 @@ class AddFilterModal extends Component {
           <div>
             <p>
               Filter Text&nbsp;
-              <input type="text" defaultValue={this.state.text} id={"add-filter-text"}
+              <input type="text" defaultValue={this.state.args.text} id={"add-filter-text"}
                      ref={(input) => this.textInput = input} />
+              <input type="hidden" defaultValue={this.state.args.key} id={"add-filter-text"}
+                     ref={(input) => this.keyHidden = input} />
             </p>
-            <p className="clearfix mbm">
+            <div className="clearfix mbm">
               <div className="pull-left">
                 Filter Color&nbsp;
                 <select id="filter-color-picker"
@@ -93,7 +114,7 @@ class AddFilterModal extends Component {
                   <option value="teal">Teal</option>
                 </select>
               </div>
-            </p>
+            </div>
             <div className="mtop">
               <button type="submit" className={"save-filter"}>Save</button>
               <button type="button" className={"close-filter-modal"} onClick={closeModal}>Cancel</button>
