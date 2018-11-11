@@ -6,6 +6,7 @@
     "electron-is-dev": "^1.0.1",
     "electron-localshortcut": "^3.1.0",
     "react": "^16.6.1",
+    "react-beautiful-dnd": "^9.0.2",
     "react-dom": "^16.6.1",
     "react-modal": "^3.6.1",
     "react-scripts": "2.1.1"
@@ -15,12 +16,15 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\""
+    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-pack": "build  -c.extraMetadata.main=build/electron.js",
+    "preelectron-pack": "yarn build"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "main": "public/electron.js",
+  "homepage": "./",
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -32,5 +36,16 @@
     "electron": "^3.0.8",
     "electron-builder": "^20.33.2",
     "wait-on": "^3.2.0"
-  }
+  },
+  "build": {
+    "appId": "com.innovationz-unlimited.log-explorer",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
+  "author": "Naved Rangwala"
 }

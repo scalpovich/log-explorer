@@ -1,13 +1,37 @@
-const electron = require('electron');
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+const {app, globalShortcut, BrowserWindow} = require('electron');
 
 const path = require('path');
-const url = require('url');
 const isDev = require('electron-is-dev');
 const electronLocalshortcut = require('electron-localshortcut');
 
 let mainWindow;
+
+let globalShortcuts = [
+  'CommandOrControl+H'
+];
+
+let localShortcuts = [
+  'CommandOrControl+O',
+  'CommandOrControl+N',
+  'Delete',
+  'Backspace',
+  'Up',
+  'Down'
+];
+
+function registerShortcuts () {
+  globalShortcuts.forEach(accelerator => {
+    globalShortcut.register(accelerator, () => {
+      mainWindow.webContents.send('keyPress', accelerator);
+    });
+  });
+}
+
+function unregisterShortcuts () {
+  globalShortcuts.forEach(accelerator => {
+    globalShortcut.unregister(accelerator);
+  });
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -17,27 +41,15 @@ function createWindow() {
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
   mainWindow.on('closed', () => mainWindow = null);
 
-  electronLocalshortcut.unregister(mainWindow, 'CommandOrControl+H');
-  electronLocalshortcut.register(mainWindow, 'CommandOrControl+O', () => {
-    mainWindow.webContents.send('keyPress', 'CommandOrControl+O')
+  localShortcuts.forEach(accelerator => {
+    electronLocalshortcut.register(mainWindow, accelerator, () => {
+      mainWindow.webContents.send('keyPress', accelerator)
+    });
   });
 
-  electronLocalshortcut.register(mainWindow, 'CommandOrControl+N', () => {
-    mainWindow.webContents.send('keyPress', 'CommandOrControl+N')
-  });
-
-  electronLocalshortcut.register(mainWindow, 'CommandOrControl+H', () => {
-    mainWindow.webContents.send('keyPress', 'CommandOrControl+H');
-  });
-
-  electronLocalshortcut.register(mainWindow, 'Delete', () => {
-    mainWindow.webContents.send('keyPress', 'Delete');
-  });
-
-  electronLocalshortcut.register(mainWindow, 'Backspace', () => {
-    mainWindow.webContents.send('keyPress', 'Backspace');
-  });
-
+  registerShortcuts();
+  mainWindow.on('focus', registerShortcuts);
+  mainWindow.on('blur', unregisterShortcuts);
 }
 
 app.on('ready', createWindow);

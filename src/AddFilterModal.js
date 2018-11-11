@@ -58,37 +58,45 @@ class AddFilterModal extends Component {
     }
   }
 
+  afterOpenModal() {
+    this.textInput.focus();
+    this.textInput.select();
+  }
+
   render() {
     let closeModal = () => this.props.closeModal();
 
     return (
       <Modal isOpen={this.state.open}
              onRequestClose={closeModal}
+             onAfterOpen={this.afterOpenModal.bind(this)}
              style={addFilterModalStyle}
              contentLabel="Add Filter">
         <form method="post" action="" id="add-filter-form" onSubmit={this.save.bind(this)}>
-          <div className="clearfix mbm">
-            <div className="pull-left"></div>
-            <div className="text-right pull-right">
-              Filter Color
-              <select id="filter-color-picker"
-                      ref={(input) => this.colorSelect = input}>
-                <option value="opt-0"></option>
-                <option value="opt-1">Blue</option>
-                <option value="opt-2">Red</option>
-              </select>
-            </div>
-          </div>
-
+          <h3 className={"mtop-5"}>Add Filter</h3>
           <div>
-            <p>Filter Text <input type="text"
-                                  defaultValue={this.state.text}
-                                  id={"add-filter-text"}
-                                  ref={(input) => this.textInput = input} />
+            <p>
+              Filter Text&nbsp;
+              <input type="text" defaultValue={this.state.text} id={"add-filter-text"}
+                     ref={(input) => this.textInput = input} />
+            </p>
+            <p className="clearfix mbm">
+              <div className="pull-left">
+                Filter Color&nbsp;
+                <select id="filter-color-picker"
+                        ref={(input) => this.colorSelect = input}>
+                  <option value="no-background"></option>
+                  <option value="blue">Blue</option>
+                  <option value="red">Red</option>
+                  <option value="aquamarine">Aquamarine</option>
+                  <option value="black">Black</option>
+                  <option value="teal">Teal</option>
+                </select>
+              </div>
             </p>
             <div className="mtop">
-              <button type="submit">Save</button>
-              <button type="button" onClick={closeModal}>Cancel</button>
+              <button type="submit" className={"save-filter"}>Save</button>
+              <button type="button" className={"close-filter-modal"} onClick={closeModal}>Cancel</button>
             </div>
           </div>
         </form>

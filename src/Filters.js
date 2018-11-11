@@ -44,11 +44,14 @@ class Filters extends Component {
         <table>
           <tbody>
           {
-            this.state.filters.map(filter => {
+            this.state.filters.map((filter, index) => {
               return <Filter filter={filter}
                              key={filter.key}
+                             filterIndex={index}
+                             totalFilters={this.state.filters.length}
                              fileName={this.state.fileName}
                              getFilters={this.props.getFilters}
+                             deleteFilter={this.deleteFilter.bind(this)}
                              filterChanged={this.props.filterChanged} />
             })
           }

@@ -1,6 +1,7 @@
 import {Component} from "react";
 import React from "react";
 import './css/FileView.css';
+import './css/Filters.css';
 import './css/helper.css';
 import ReactDOM from "react-dom";
 import App from "./App";
@@ -9,6 +10,7 @@ import FileContents from "./FileContents"
 import AddFilterModal from "./AddFilterModal"
 
 let fs = window.require('fs');
+const path = window.require('path');
 
 let fileName = '';
 let fileData = [];
@@ -45,6 +47,12 @@ class FileView extends Component {
             addFilterModalOpen: true
           });
           break;
+        case 'Up':
+          this.selectAdjLine(false);
+          break;
+        case 'Down':
+          this.selectAdjLine(true);
+          break;
         default:
           break;
       }
@@ -77,6 +85,22 @@ class FileView extends Component {
       });
       this.filterChanged();
     });
+  }
+
+  selectAdjLine(next) {
+    let targetLine = null;
+    let visibleLines = this.state.showOnlyFiltered ? fileData.filter(f => f.filterMatch) : fileData;
+    if (this.state.selectedLine) {
+      let index = visibleLines.indexOf(this.state.selectedLine);
+      if (next) {
+        targetLine = index < visibleLines.length ? visibleLines[index + 1] : this.state.selectedLine;
+      } else {
+        targetLine = index > 0 ? visibleLines[index - 1] : this.state.selectedLine;
+      }
+    } else if (visibleLines.length) {
+      targetLine = visibleLines[0];
+    }
+    this.lineClickHandler(targetLine);
   }
 
   lineClickHandler(line) {
@@ -130,7 +154,7 @@ class FileView extends Component {
       <div id="analyzer">
         <div className="top-bar">
           <div className={"clearfix"}>
-            <div className={"pull-left"}>{this.state.fileName}</div>
+            <div className={"pull-left fontbold"}>{path.basename(this.state.fileName)}</div>
             <div className={"pull-right"}>
               <button className="close-file" onClick={this.close}>Close</button>
             </div>
