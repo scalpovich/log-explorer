@@ -48,7 +48,7 @@ class Filters extends Component {
               <th>Up</th>
               <th>Down</th>
               <th>Del?</th>
-              <th>Exclude</th>
+              <th>Cond.</th>
               <th>Text</th>
               <th>Matches</th>
             </tr>

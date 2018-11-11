@@ -15,6 +15,46 @@ const path = window.require('path');
 let fileName = '';
 let fileData = [];
 
+
+let filterColors = [
+  {
+    name: "Blue",
+    style: {
+      background: 'royalblue',
+      color: 'white'
+    }
+  },
+  {
+    name: "Red",
+    style: {
+      background: 'firebrick',
+      color: 'white'
+    }
+  },
+  {
+    name: "Aquamarine",
+    style: {
+      background: 'aquamarine',
+      color: 'black'
+    }
+  },
+  {
+    name: "Black",
+    style: {
+      background: 'black',
+      color: 'white'
+    }
+  },
+  {
+    name: "Teal",
+    style: {
+      background: 'teal',
+      color: 'white'
+    }
+  },
+];
+
+
 function getFilters() {
   return JSON.parse(localStorage.getItem(fileName) || "[]");
 }
@@ -48,6 +88,9 @@ class FileView extends Component {
             }
           });
           break;
+        case 'CommandOrControl+W':
+          this.close();
+          break;
         case 'Up':
           this.selectAdjLine(false);
           break;
@@ -58,6 +101,23 @@ class FileView extends Component {
           break;
       }
     });
+  }
+
+  componentDidMount() {
+    document.title = `Log Explorer - ${path.basename(fileName)}`;
+    if (!document.getElementById('filters-style')) {
+      let styleNode = document.createElement('style', );
+      styleNode.id = 'filters-style';
+      styleNode.type = "text/css";
+      let classes = filterColors.map((color, i) => {
+        return `.filter-color-${i} {
+          background-color: ${color.style.background};
+          color: ${color.style.color} !important;
+        }`
+      });
+      styleNode.appendChild(document.createTextNode(classes.join('\n')));
+      document.getElementsByTagName('head')[0].appendChild(styleNode);
+    }
   }
 
   toggleShowOnlyFiltered() {
@@ -153,7 +213,9 @@ class FileView extends Component {
 
     let filters = allFilters.filter(f => f.enabled);
     fileData.forEach(line => {
-      let filter = filters.find(f => line.text.toLowerCase().match(f.text.toLowerCase()));
+      let filter = filters.find(f => f.caseSensitive
+        ? line.text.match(f.text)
+        : line.text.toLowerCase().match(f.text.toLowerCase()));
       line.filterMatch = !!filter;
       line.className = line.filterMatch ? filter.class : '';
       line.exclude = line.filterMatch ? filter.exclude: false;
@@ -204,12 +266,13 @@ class FileView extends Component {
                         fileName={this.state.fileName}
                         fileData={this.state.fileData}
                         getFilters={getFilters}
+                        filterColors={filterColors}
                         filterChanged={this.filterChanged.bind(this)}
                         closeModal={this.closeAddFilterModal.bind(this)} />
         {
           this.state.fileData.length === 0 &&
           <div id="loading">
-            <h2>File is empty</h2>
+            <h2>Loading File</h2>
           </div>
         }
       </div>

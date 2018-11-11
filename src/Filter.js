@@ -88,7 +88,11 @@ class Filter extends Component {
         <td width="20px;">
           {
             this.state.filter.exclude &&
-            <span>[!]</span>
+            <span>[!]&nbsp;</span>
+          }
+          {
+            this.state.filter.caseSensitive &&
+              <span>[Aa]&nbsp;</span>
           }
         </td>
         <td onClick={select} onDoubleClick={handleDoubleClick}>{this.state.filter.text}</td>

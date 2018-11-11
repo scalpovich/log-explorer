@@ -7,7 +7,8 @@ const electronLocalshortcut = require('electron-localshortcut');
 let mainWindow;
 
 let globalShortcuts = [
-  'CommandOrControl+H'
+  'CommandOrControl+H',
+  'CommandOrControl+W'
 ];
 
 let localShortcuts = [
@@ -53,6 +54,13 @@ function createWindow() {
 }
 
 app.on('ready', createWindow);
+
+app.on('open-file', (event, path) => {
+  event.preventDefault();
+  app.on('ready', () => {
+    mainWindow.webContents.send('open-file', path);
+  });
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

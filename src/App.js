@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import './css/App.css';
 import ReactDOM from "react-dom";
 import FileView from "./FileView";
-const {remote} = window.require('electron');
+const {remote, ipcRenderer} = window.require('electron');
 
 const dialog = remote.dialog;
 
-window.require('electron').ipcRenderer.on('keyPress', (event, message) => {
+ipcRenderer.on('keyPress', (event, message) => {
   switch (message) {
     case 'CommandOrControl+O':
       openFileDialog();
@@ -14,6 +14,10 @@ window.require('electron').ipcRenderer.on('keyPress', (event, message) => {
     default:
       break;
   }
+});
+
+ipcRenderer.on('open-file', (event, path) => {
+  ReactDOM.render(<FileView fileName={path} />, document.getElementById('root'));
 });
 
 function openFileDialog() {
@@ -26,6 +30,9 @@ function openFileDialog() {
 }
 
 class App extends Component {
+  componentDidMount() {
+    document.title = `Log Explorer`;
+  }
 
   render() {
     return (

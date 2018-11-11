@@ -8,6 +8,7 @@
     "react": "^16.6.1",
     "react-beautiful-dnd": "^9.0.2",
     "react-dom": "^16.6.1",
+    "react-dropdown": "^1.6.2",
     "react-modal": "^3.6.1",
     "react-scripts": "2.1.1"
   },
@@ -17,8 +18,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
-    "electron-pack": "build  -c.extraMetadata.main=build/electron.js",
-    "preelectron-pack": "yarn build"
+    "electron-pack": "build -c.extraMetadata.main=build/electron.js --win --mac --publish=always",
+    "preelectron-pack": "yarn build",
+    "electron-pack-test": "build -c.extraMetadata.main=build/electron.js",
+    "preelectron-pack-test": "yarn build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,6 +41,7 @@
     "wait-on": "^3.2.0"
   },
   "build": {
+    "productName": "Log Explorer",
     "appId": "com.innovationz-unlimited.log-explorer",
     "files": [
       "build/**/*",
@@ -46,7 +50,7 @@
     "directories": {
       "buildResources": "assets"
     },
-    "fileAssociations" : [
+    "fileAssociations": [
       {
         "ext": "txt",
         "role": "Editor"
@@ -54,6 +58,27 @@
       {
         "ext": "log",
         "role": "Editor"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "build/icon.png",
+      "publish": [
+        "github"
+      ]
+    },
+    "win": {
+      "icon": "build/icon.png",
+      "publish": [
+        "github"
+      ]
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "repo": "log-explorer",
+        "owner": "navedr",
+        "releaseType": "release"
       }
     ]
   },

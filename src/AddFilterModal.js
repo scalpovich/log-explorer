@@ -48,6 +48,7 @@ class AddFilterModal extends Component {
         filter.text = this.textInput.value;
         filter.class = this.colorSelect.value;
         filter.exclude = this.excludeCheck.checked;
+        filter.caseSensitive = this.caseCheck.checked;
       } else {
         // add
         filters.push({
@@ -56,6 +57,7 @@ class AddFilterModal extends Component {
           class: this.colorSelect.value,
           enabled: true,
           exclude: this.excludeCheck.checked,
+          caseSensitive: this.caseCheck.checked,
           selected: false,
           matchCount: this.state.fileData.filter(f => f.text.toLowerCase().match(this.textInput.value.toLowerCase())).length
         });
@@ -76,6 +78,7 @@ class AddFilterModal extends Component {
         this.textInput.value = filter.text;
         this.colorSelect.value = filter.class;
         this.excludeCheck.checked = filter.exclude;
+        this.caseCheck.checked = filter.caseSensitive;
       }
     }
   }
@@ -107,16 +110,23 @@ class AddFilterModal extends Component {
                   Filter Color&nbsp;
                   <select id="filter-color-picker"
                           ref={(input) => this.colorSelect = input}>
-                    <option value="no-background"></option>
-                    <option value="blue">Blue</option>
-                    <option value="red">Red</option>
-                    <option value="aquamarine">Aquamarine</option>
-                    <option value="black">Black</option>
-                    <option value="teal">Teal</option>
+                    <option value="no-background">Normal</option>
+                    {
+                      this.props.filterColors.map((color, i) => {
+                        return <option key={i} value={`filter-color-${i}`}>{color.name}</option>
+                      })
+                    }
                   </select>
                 </span>
                 <span className={"mleft"}>
-                  Exclude <input type="checkbox" ref={(input) => this.excludeCheck = input} />
+                  <label>
+                    <input type="checkbox" ref={(input) => this.excludeCheck = input} /> Exclude?
+                  </label>
+                </span>
+                <span className={"mleft"}>
+                  <label>
+                    <input type="checkbox" ref={(input) => this.caseCheck = input} /> Case sensitive?
+                  </label>
                 </span>
               </div>
               <div className={"pull-right"}>
