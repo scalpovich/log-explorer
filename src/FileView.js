@@ -39,10 +39,7 @@ class FileView extends Component {
     window.require('electron').ipcRenderer.on('keyPress', (event, message) => {
       switch (message) {
         case 'CommandOrControl+H':
-          this.setState(state => {
-            state.showOnlyFiltered = !state.showOnlyFiltered;
-            return state;
-          });
+          this.toggleShowOnlyFiltered();
           break;
         case 'CommandOrControl+N':
           this.setState({
@@ -60,6 +57,14 @@ class FileView extends Component {
         default:
           break;
       }
+    });
+  }
+
+  toggleShowOnlyFiltered() {
+    this.setState(state => {
+      state.showOnlyFiltered = !state.showOnlyFiltered;
+      this.showOnlyFilteredCheck.checked = state.showOnlyFiltered;
+      return state;
     });
   }
 
@@ -174,6 +179,13 @@ class FileView extends Component {
           <div className={"clearfix"}>
             <div className={"file-name"}>{path.basename(this.state.fileName)}</div>
             <div className={"pull-right"}>
+              <span className={"mright"}>
+                <label className={"font-lvl-3"}>
+                  <input type="checkbox" onChange={this.toggleShowOnlyFiltered.bind(this)}
+                         ref={(input) => this.showOnlyFilteredCheck = input} />
+                  Show Filtered Only
+                </label>
+              </span>
               <button className="close-file" onClick={this.close}>Close</button>
             </div>
           </div>
