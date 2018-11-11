@@ -21,14 +21,15 @@ class LogEntry extends Component {
     let handleDoubleClick = () => this.props.lineDoubleClickHandler(this.state.line);
 
     return (
-      <tr onClick={handleRowClick} className={this.state.showOnlyFiltered && !this.state.line.filterMatch ? 'hide': ''}>
+      <tr onClick={handleRowClick}
+          className={this.state.showOnlyFiltered && (!this.state.line.filterMatch || this.state.line.exclude) ? 'hide': ''}>
         <td className="line-no">
-          <pre>{this.state.line.key + 1}</pre>
+          <pre>{this.state.line.key}</pre>
         </td>
         <td className={"line"}>
           <pre className={this.state.line.className +
           (this.state.line.selected ? ' selected ' : ' ') +
-          (this.state.line.filterMatch ? 'filter-match ' : ' ')} onDoubleClick={handleDoubleClick}>{this.state.line.text}</pre>
+          (this.state.line.filterMatch && !this.state.line.exclude ? 'filter-match ' : ' ')} onDoubleClick={handleDoubleClick}>{this.state.line.text}</pre>
         </td>
       </tr>
     );

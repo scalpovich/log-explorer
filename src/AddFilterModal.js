@@ -46,7 +46,8 @@ class AddFilterModal extends Component {
       if (this.state.args.key) {
         let filter = filters.find(f => f.key === this.state.args.key);
         filter.text = this.textInput.value;
-        filter.class = this.colorSelect.value
+        filter.class = this.colorSelect.value;
+        filter.exclude = this.excludeCheck.checked;
       } else {
         // add
         filters.push({
@@ -54,7 +55,7 @@ class AddFilterModal extends Component {
           text: this.textInput.value,
           class: this.colorSelect.value,
           enabled: true,
-          exclude: false,
+          exclude: this.excludeCheck.checked,
           selected: false,
           matchCount: this.state.fileData.filter(f => f.text.toLowerCase().match(this.textInput.value.toLowerCase())).length
         });
@@ -74,6 +75,7 @@ class AddFilterModal extends Component {
       if (filter) {
         this.textInput.value = filter.text;
         this.colorSelect.value = filter.class;
+        this.excludeCheck.checked = filter.exclude;
       }
     }
   }
@@ -98,21 +100,27 @@ class AddFilterModal extends Component {
               Filter Text&nbsp;
               <input type="text" defaultValue={this.state.args.text} id={"add-filter-text"}
                      ref={(input) => this.textInput = input} />
-              <input type="hidden" defaultValue={this.state.args.key} id={"add-filter-text"}
-                     ref={(input) => this.keyHidden = input} />
             </p>
             <div className="clearfix mbm">
               <div className="pull-left">
-                Filter Color&nbsp;
-                <select id="filter-color-picker"
-                        ref={(input) => this.colorSelect = input}>
-                  <option value="no-background"></option>
-                  <option value="blue">Blue</option>
-                  <option value="red">Red</option>
-                  <option value="aquamarine">Aquamarine</option>
-                  <option value="black">Black</option>
-                  <option value="teal">Teal</option>
-                </select>
+                <span>
+                  Filter Color&nbsp;
+                  <select id="filter-color-picker"
+                          ref={(input) => this.colorSelect = input}>
+                    <option value="no-background"></option>
+                    <option value="blue">Blue</option>
+                    <option value="red">Red</option>
+                    <option value="aquamarine">Aquamarine</option>
+                    <option value="black">Black</option>
+                    <option value="teal">Teal</option>
+                  </select>
+                </span>
+                <span className={"mleft"}>
+                  Exclude <input type="checkbox" ref={(input) => this.excludeCheck = input} />
+                </span>
+              </div>
+              <div className={"pull-right"}>
+
               </div>
             </div>
             <div className="mtop">

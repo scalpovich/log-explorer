@@ -67,9 +67,6 @@ class Filter extends Component {
 
     return (
       <tr className={'filter ' + this.state.filter.class + (this.state.filter.selected ? ' selected' : ' ')}>
-        <td width="30px;">
-          <button className={"delete"} onClick={deleteFilter}>X</button>
-        </td>
         <td width="50px;">
           <input type="checkbox" defaultChecked={this.state.filter.enabled} onChange={toggleFilter} />
         </td>
@@ -83,6 +80,15 @@ class Filter extends Component {
           {
             this.state.filterIndex < this.state.totalFilters - 1 &&
             <button className={"move-down"} onClick={moveDown}><i className={"arrow down"}></i></button>
+          }
+        </td>
+        <td width="30px;">
+          <button className={"delete"} onClick={deleteFilter}>X</button>
+        </td>
+        <td width="20px;">
+          {
+            this.state.filter.exclude &&
+            <span>[!]</span>
           }
         </td>
         <td onClick={select} onDoubleClick={handleDoubleClick}>{this.state.filter.text}</td>

@@ -81,7 +81,8 @@ class FileView extends Component {
             text: line,
             selected: false,
             className: '',
-            filterMatch: false
+            filterMatch: false,
+            exclude: false
           };
         });
       this.setState({
@@ -148,13 +149,9 @@ class FileView extends Component {
     let filters = allFilters.filter(f => f.enabled);
     fileData.forEach(line => {
       let filter = filters.find(f => line.text.toLowerCase().match(f.text.toLowerCase()));
-      if (filter) {
-        line.filterMatch = true;
-        line.className = filter.class
-      } else {
-        line.className = '';
-        line.filterMatch = false;
-      }
+      line.filterMatch = !!filter;
+      line.className = line.filterMatch ? filter.class : '';
+      line.exclude = line.filterMatch ? filter.exclude: false;
     });
     this.setState({
       fileData: fileData
@@ -175,7 +172,7 @@ class FileView extends Component {
       <div id="analyzer">
         <div className="top-bar">
           <div className={"clearfix"}>
-            <div className={"pull-left fontbold"}>{path.basename(this.state.fileName)}</div>
+            <div className={"file-name"}>{path.basename(this.state.fileName)}</div>
             <div className={"pull-right"}>
               <button className="close-file" onClick={this.close}>Close</button>
             </div>
@@ -200,7 +197,7 @@ class FileView extends Component {
         {
           this.state.fileData.length === 0 &&
           <div id="loading">
-            <h2>Loading File...</h2>
+            <h2>File is empty</h2>
           </div>
         }
       </div>

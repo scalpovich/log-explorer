@@ -42,6 +42,17 @@ class Filters extends Component {
       <div id="filters" className="pall-5">
         <h2 className="mtop-5 mbm-5">Filters</h2>
         <table>
+          <thead>
+            <tr>
+              <th>Enable</th>
+              <th>Up</th>
+              <th>Down</th>
+              <th>Del?</th>
+              <th>Exclude</th>
+              <th>Text</th>
+              <th>Matches</th>
+            </tr>
+          </thead>
           <tbody>
           {
             this.state.filters.map((filter, index) => {

@@ -10,28 +10,38 @@
 
 .top-bar {
     border-bottom: 1px solid gray;
-    height: 20px;
+    height: 30px;
     position: fixed;
     top: 0;
     left: 0;
     width: 99%;
-    padding: 5px 10px;
+    padding: 10px 10px;
     background: #fff;
     text-align: right;
+    background: #efefef;
+}
+
+.top-bar .file-name {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
 }
 
 .close-file {
     border: 1px solid gray;
-    height: 20px;
+    padding: 7px 20px;
+    font-size: 10pt;
     background: red;
     color: white;
     font-weight: bold;
+    margin-right: 5px;
 }
 
 #file-contents {
-    margin-top: 30px;
+    margin-top: 40px;
     padding-top: 10px;
-    margin-bottom: 150px;
+    margin-bottom: 265px;
 }
 
 #file-contents td.line pre.selected {
@@ -76,17 +86,27 @@
     position: fixed;
     left: 0;
     bottom: 0;
-    border-top: 4px solid black;
-    max-height: 150px;
+    border-top: 4px double gray;
+    max-height: 250px;
     overflow-y: auto;
     width: 100%;
-    background: white;
-    min-height: 150px;
+    min-height: 250px;
+    background: #efefef;
 }
 
 #filters table {
     border-collapse: collapse;
-    width: 100%;
+    width: 99%;
+    /*background: white;*/
+}
+
+#filters table thead th {
+    text-align: left;
+    border-bottom: 1px solid silver;
+    padding: 2px 5px;
+    font-size: 10pt;
+    font-weight: normal;
+    color: saddlebrown;
 }
 
 #filters table tr.filter.selected {
