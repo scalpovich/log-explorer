@@ -25,9 +25,10 @@ class FileContents extends Component {
           <tbody>
           {
             this.state.fileData.map(line => {
-              return <LogEntry line={line}
+              let hideEntry = this.state.showOnlyFiltered && (!line.filterMatch || line.exclude);
+              return !hideEntry && <LogEntry line={line}
                                key={line.key}
-                               showOnlyFiltered={this.state.showOnlyFiltered}
+                               hideEntry={hideEntry}
                                lineClickHandler={this.props.lineClickHandler}
                                lineDoubleClickHandler={this.props.lineDoubleClickHandler} />
             })

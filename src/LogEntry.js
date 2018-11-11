@@ -22,7 +22,7 @@ class LogEntry extends Component {
 
     return (
       <tr onClick={handleRowClick}
-          className={this.state.showOnlyFiltered && (!this.state.line.filterMatch || this.state.line.exclude) ? 'hide': ''}>
+          className={this.state.hideEntry ? 'hide': ''}>
         <td className="line-no">
           <pre>{this.state.line.key}</pre>
         </td>
