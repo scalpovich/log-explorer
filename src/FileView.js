@@ -1,7 +1,6 @@
 import {Component} from "react";
 import React from "react";
 import './css/FileView.css';
-import './css/Filters.css';
 import './css/helper.css';
 import ReactDOM from "react-dom";
 import App from "./App";
@@ -14,7 +13,6 @@ const path = window.require('path');
 
 let fileName = '';
 let fileData = [];
-
 
 let filterColors = [
   {
@@ -53,7 +51,6 @@ let filterColors = [
     }
   },
 ];
-
 
 function getFilters() {
   return JSON.parse(localStorage.getItem(fileName) || "[]");
@@ -210,15 +207,28 @@ class FileView extends Component {
       filters: allFilters,
       filtersApplied: allFilters.filter(f => f.enabled).length > 0
     });
+    this.applyFilters();
+  }
 
-    let filters = allFilters.filter(f => f.enabled);
+  applyFilters() {
+    let allFilters = getFilters();
+    let filters = allFilters.filter(f => f.enabled && !f.exclude);
+    let excludeFilters = allFilters.filter(f => f.enabled && f.exclude);
     fileData.forEach(line => {
-      let filter = filters.find(f => f.caseSensitive
-        ? line.text.match(f.text)
-        : line.text.toLowerCase().match(f.text.toLowerCase()));
-      line.filterMatch = !!filter;
-      line.className = line.filterMatch ? filter.class : '';
-      line.exclude = line.filterMatch ? filter.exclude: false;
+      let predicate = f => f.caseSensitive ?
+        line.text.match(f.text) :
+        line.text.toLowerCase().match(f.text.toLowerCase());
+      let filter = filters.find(predicate);
+      let excludeFilter = excludeFilters.find(predicate);
+      if (excludeFilters.length && excludeFilter) {
+        line.filterMatch = false;
+        line.className = '';
+        line.exclude = true;
+        return;
+      }
+      line.filterMatch = !!filter || !!!excludeFilter;
+      line.className = line.filterMatch && filter ? filter.class : '';
+      line.exclude = line.filterMatch && filter ? filter.exclude: false;
     });
     this.setState({
       fileData: fileData
@@ -239,7 +249,9 @@ class FileView extends Component {
       <div id="analyzer">
         <div className="top-bar">
           <div className={"clearfix"}>
-            <div className={"file-name"}>{path.basename(this.state.fileName)}</div>
+            <div className={"pull-left"}>
+              <div className={"file-name"}>{path.basename(this.state.fileName)}</div>
+            </div>
             <div className={"pull-right"}>
               <span className={"mright"}>
                 <label className={"font-lvl-3"}>

@@ -1,34 +1,24 @@
-#file-contents pre {
-    margin: 0;
-    line-height: 1.3;
-    color: black;
-    display: block;
-    cursor: text;
-    font-family: "Courier";
-    font-size: 10pt;
+#analyzer {
+    height: 100vh;
 }
 
 .top-bar {
     border-bottom: 1px solid gray;
-    height: 30px;
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 99%;
-    padding: 10px 10px;
-    background: #fff;
     text-align: right;
     background: #efefef;
+    padding: 0.5vh 10px;
 }
 
 .top-bar .file-name {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*transform: translateY(-50%);*/
     font-weight: bold;
 }
 
-.close-file {
+.top-bar .close-file {
     border: 1px solid gray;
     padding: 7px 20px;
     font-size: 10pt;
@@ -39,9 +29,19 @@
 }
 
 #file-contents {
-    margin-top: 40px;
-    padding-top: 10px;
-    margin-bottom: 265px;
+    max-height: 75vh;
+    min-height: 75vh;
+    overflow-y: auto;
+}
+
+#file-contents pre {
+    margin: 0;
+    line-height: 1.3;
+    color: black;
+    display: block;
+    cursor: text;
+    font-family: "Courier";
+    font-size: 10pt;
 }
 
 #file-contents td.line pre.selected {
@@ -55,7 +55,7 @@
     padding-left: 10px;
     background: silver;
     text-align: right;
-    /*max-width: 1px;*/
+    width: 40px;
 }
 
 #file-contents table {
@@ -65,6 +65,10 @@
 
 #file-contents .line pre {
     padding-left: 10px;
+}
+
+#file-contents table.filters-applied td.line pre:not(.selected):not(.filter-match) {
+    color: gray;
 }
 
 #loading {
@@ -83,21 +87,19 @@
 }
 
 #filters {
-    position: fixed;
     left: 0;
     bottom: 0;
     border-top: 4px double gray;
-    max-height: 250px;
+    max-height: 19vh;
     overflow-y: auto;
     width: 100%;
-    min-height: 250px;
+    min-height: 19vh;
     background: #efefef;
 }
 
 #filters table {
     border-collapse: collapse;
     width: 99%;
-    /*background: white;*/
 }
 
 #filters table thead th {
@@ -113,12 +115,16 @@
     border: 2px solid gray;
 }
 
-#file-contents table.filters-applied td.line pre:not(.selected):not(.filter-match) {
-    color: gray;
-}
-
 #add-filter-form {
     width: 600px;
+}
+
+#add-filter-form button {
+    border: 1px solid gray;
+    font-size: 13pt;
+    margin-right: 10px;
+    padding: 5px 13px;
+    border-radius: 4px;
 }
 
 #filter-color-picker {
@@ -159,14 +165,6 @@
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
     margin-bottom: 2px;
-}
-
-#add-filter-form button {
-    border: 1px solid gray;
-    font-size: 13pt;
-    margin-right: 10px;
-    padding: 5px 13px;
-    border-radius: 4px;
 }
 
 .save-filter {

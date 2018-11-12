@@ -14,8 +14,6 @@ let globalShortcuts = [
 let localShortcuts = [
   'CommandOrControl+O',
   'CommandOrControl+N',
-  'Delete',
-  'Backspace',
   'Up',
   'Down'
 ];

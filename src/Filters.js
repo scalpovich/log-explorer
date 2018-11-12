@@ -9,16 +9,6 @@ class Filters extends Component {
     this.state = {
       ...props
     };
-    window.require('electron').ipcRenderer.on('keyPress', (event, message) => {
-      switch (message) {
-        case 'Delete':
-        case 'Backspace':
-          this.deleteFilter();
-          break;
-        default:
-          break;
-      }
-    });
   }
 
   deleteFilter() {
