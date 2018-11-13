@@ -37,7 +37,7 @@ class App extends Component {
   render() {
     return (
       <div id="open-file-container">
-        <h1>Log Analyzer</h1>
+        <h1>Log Explorer</h1>
         <input type="button" id="btn-readfile" value="Click to select file" onClick={openFileDialog} />
       </div>
     );
