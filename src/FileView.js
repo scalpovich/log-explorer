@@ -226,9 +226,15 @@ class FileView extends Component {
         line.exclude = true;
         return;
       }
-      line.filterMatch = !!filter || !!!excludeFilter;
-      line.className = line.filterMatch && filter ? filter.class : '';
-      line.exclude = line.filterMatch && filter ? filter.exclude: false;
+      if (filters.length) {
+        line.filterMatch = !!filter;
+        line.className = line.filterMatch ? filter.class : '';
+        line.exclude = line.filterMatch ? filter.exclude: false;
+        return;
+      }
+      line.filterMatch = true;
+      line.className = '';
+      line.exclude = false;
     });
     this.setState({
       fileData: fileData
