@@ -21,7 +21,8 @@ class FileContents extends Component {
 
     return (
       <div id="file-contents">
-        <table className={this.state.filtersApplied ? 'filters-applied': ''}>
+        <table className={this.state.filtersApplied ? 'filters-applied': ''}
+               cellPadding={"0"}>
           <tbody>
           {
             this.state.fileData.map(line => {

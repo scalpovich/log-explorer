@@ -15,41 +15,23 @@ let fileName = '';
 let fileData = [];
 
 let filterColors = [
-  {
-    name: "Blue",
-    style: {
-      background: 'royalblue',
-      color: 'white'
-    }
-  },
-  {
-    name: "Red",
-    style: {
-      background: 'firebrick',
-      color: 'white'
-    }
-  },
-  {
-    name: "Aquamarine",
-    style: {
-      background: 'aquamarine',
-      color: 'black'
-    }
-  },
-  {
-    name: "Black",
-    style: {
-      background: 'black',
-      color: 'white'
-    }
-  },
-  {
-    name: "Teal",
-    style: {
-      background: 'teal',
-      color: 'white'
-    }
-  },
+  {"name": "Aqua", "style": {"background": "#7FDBFF", "color": "black"}},
+  {"name": "Aquamarine", "style": {"background": "aquamarine", "color": "black"}},
+  {"name": "Black", "style": {"background": "#111111", "color": "white"}},
+  {"name": "Blue", "style": {"background": "#0074D9", "color": "white"}},
+  {"name": "Brick-Red", "style": {"background": "firebrick", "color": "white"}},
+  {"name": "Fuchsia", "style": {"background": "#F012BE", "color": "white"}},
+  {"name": "Green", "style": {"background": "#2ECC40", "color": "white"}},
+  {"name": "Lime", "style": {"background": "#01FF70", "color": "black"}},
+  {"name": "Maroon", "style": {"background": "#85144B", "color": "white"}},
+  {"name": "Navy", "style": {"background": "#001F3F", "color": "white"}},
+  {"name": "Olive", "style": {"background": "#3D9970", "color": "white"}},
+  {"name": "Orange", "style": {"background": "#FF851B", "color": "white"}},
+  {"name": "Purple", "style": {"background": "#B10DC9", "color": "white"}},
+  {"name": "Red", "style": {"background": "#FF4136", "color": "white"}},
+  {"name": "Royal-Blue", "style": {"background": "royalblue", "color": "white"}},
+  {"name": "Teal", "style": {"background": "#39CCCC", "color": "black"}},
+  {"name": "Yellow", "style": {"background": "#FFDC00", "color": "black"}}
 ];
 
 function getFilters() {
@@ -68,7 +50,7 @@ class FileView extends Component {
       filters: [],
       filtersApplied: true,
       showOnlyFiltered: false,
-      addFilterModal : {
+      addFilterModal: {
         open: false
       }
     };
@@ -103,7 +85,7 @@ class FileView extends Component {
   componentDidMount() {
     document.title = `Log Explorer - ${path.basename(fileName)}`;
     if (!document.getElementById('filters-style')) {
-      let styleNode = document.createElement('style', );
+      let styleNode = document.createElement('style',);
       styleNode.id = 'filters-style';
       styleNode.type = "text/css";
       let classes = filterColors.map((color, i) => {
@@ -172,7 +154,7 @@ class FileView extends Component {
 
   lineClickHandler(line) {
     this.setState(state => {
-      if (state.selectedLine && state.selectedLine.selected){
+      if (state.selectedLine && state.selectedLine.selected) {
         state.selectedLine.selected = false;
         if (state.selectedLine.key === line.key) {
           return state;
@@ -229,7 +211,7 @@ class FileView extends Component {
       if (filters.length) {
         line.filterMatch = !!filter;
         line.className = line.filterMatch ? filter.class : '';
-        line.exclude = line.filterMatch ? filter.exclude: false;
+        line.exclude = line.filterMatch ? filter.exclude : false;
         return;
       }
       line.filterMatch = true;
@@ -262,7 +244,7 @@ class FileView extends Component {
               <span className={"mright"}>
                 <label className={"font-lvl-3"}>
                   <input type="checkbox" onChange={this.toggleShowOnlyFiltered.bind(this)}
-                         ref={(input) => this.showOnlyFilteredCheck = input} />
+                         ref={(input) => this.showOnlyFilteredCheck = input}/>
                   Show Filtered Only
                 </label>
               </span>
@@ -279,14 +261,14 @@ class FileView extends Component {
                  fileName={this.state.fileName}
                  getFilters={getFilters}
                  filterDoubleClickHandler={this.filterDoubleClickHandler.bind(this)}
-                 filterChanged={this.filterChanged.bind(this)} />
+                 filterChanged={this.filterChanged.bind(this)}/>
         <AddFilterModal args={this.state.addFilterModal}
                         fileName={this.state.fileName}
                         fileData={this.state.fileData}
                         getFilters={getFilters}
                         filterColors={filterColors}
                         filterChanged={this.filterChanged.bind(this)}
-                        closeModal={this.closeAddFilterModal.bind(this)} />
+                        closeModal={this.closeAddFilterModal.bind(this)}/>
         {
           this.state.fileData.length === 0 &&
           <div id="loading">
