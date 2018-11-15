@@ -43,23 +43,25 @@ class AddFilterModal extends Component {
     event.preventDefault();
     if (this.textInput) {
       let filters = this.state.getFilters();
+      let common = {
+        text: this.textInput.value,
+        class: this.colorSelect.value,
+        exclude: this.excludeCheck.checked,
+        caseSensitive: this.caseCheck.checked,
+        matchCount: this.state.fileData.filter(line => this.caseCheck.checked ?
+          line.text.match(this.textInput.value) :
+          line.text.toLowerCase().match(this.textInput.value.toLowerCase())).length
+      };
       if (this.state.args.key) {
         let filter = filters.find(f => f.key === this.state.args.key);
-        filter.text = this.textInput.value;
-        filter.class = this.colorSelect.value;
-        filter.exclude = this.excludeCheck.checked;
-        filter.caseSensitive = this.caseCheck.checked;
+        Object.keys(common).forEach(key => filter[key] = common[key]);
       } else {
         // add
         filters.push({
+          ...common,
           key: guid(),
-          text: this.textInput.value,
-          class: this.colorSelect.value,
           enabled: true,
-          exclude: this.excludeCheck.checked,
-          caseSensitive: this.caseCheck.checked,
           selected: false,
-          matchCount: this.state.fileData.filter(f => f.text.toLowerCase().match(this.textInput.value.toLowerCase())).length
         });
       }
       localStorage[this.state.fileName] = JSON.stringify(filters);
