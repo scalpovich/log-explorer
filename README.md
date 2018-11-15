@@ -12,7 +12,7 @@ Build and package the app:
 ### `npm run electron-pack`
 
 
-###Keyboard Shortcuts
+### Keyboard Shortcuts
 
 - **Ctrl/Cmd + O** - Open File
 - **Ctrl/Cmd + N** - New Filter (You can also double click on log entry to add filter)
