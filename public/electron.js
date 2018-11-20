@@ -34,7 +34,7 @@ function unregisterShortcuts () {
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    icon: path.join(__dirname, 'icon.png')
+    icon: path.join(__dirname, 'icon.png'),
   });
   mainWindow.maximize();
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);

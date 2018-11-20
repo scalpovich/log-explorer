@@ -29,7 +29,7 @@ function openFileDialog() {
   });
 }
 
-class App extends Component {
+export default class App extends Component {
   componentDidMount() {
     document.title = `Log Explorer`;
   }
@@ -43,5 +43,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;

@@ -7,6 +7,7 @@ import App from "./App";
 import Filters from "./Filters"
 import FileContents from "./FileContents"
 import AddFilterModal from "./AddFilterModal"
+import FilterService from "./FilterService";
 
 let fs = window.require('fs');
 const path = window.require('path');
@@ -197,9 +198,7 @@ class FileView extends Component {
     let filters = allFilters.filter(f => f.enabled && !f.exclude);
     let excludeFilters = allFilters.filter(f => f.enabled && f.exclude);
     fileData.forEach(line => {
-      let predicate = f => f.caseSensitive ?
-        line.text.match(f.text) :
-        line.text.toLowerCase().match(f.text.toLowerCase());
+      let predicate = f => FilterService.matchesFilter(f.caseSensitive, line, f.text);
       let filter = filters.find(predicate);
       let excludeFilter = excludeFilters.find(predicate);
       if (excludeFilters.length && excludeFilter) {

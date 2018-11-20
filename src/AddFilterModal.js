@@ -1,6 +1,7 @@
 import {Component} from "react";
 import Modal from "react-modal";
 import React from "react";
+import FilterService from "./FilterService";
 
 const addFilterModalStyle = {
   content : {
@@ -41,16 +42,15 @@ class AddFilterModal extends Component {
 
   save(event) {
     event.preventDefault();
-    if (this.textInput) {
+    if (this.textInput.value) {
       let filters = this.state.getFilters();
       let common = {
         text: this.textInput.value,
         class: this.colorSelect.value,
         exclude: this.excludeCheck.checked,
         caseSensitive: this.caseCheck.checked,
-        matchCount: this.state.fileData.filter(line => this.caseCheck.checked ?
-          line.text.match(this.textInput.value) :
-          line.text.toLowerCase().match(this.textInput.value.toLowerCase())).length
+        matchCount: this.state.fileData.filter(line =>
+          FilterService.matchesFilter(this.caseCheck.checked, line, this.textInput.value)).length
       };
       if (this.state.args.key) {
         let filter = filters.find(f => f.key === this.state.args.key);
