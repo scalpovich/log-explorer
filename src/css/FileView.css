@@ -177,3 +177,7 @@
     background: red;
     color: white;
 }
+
+#file-contents table.filters-applied.show-only-filtered tr:not(.row-filter-match) {
+    display: none;
+}

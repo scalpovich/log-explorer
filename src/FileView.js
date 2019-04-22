@@ -92,7 +92,7 @@ class FileView extends Component {
       let classes = filterColors.map((color, i) => {
         return `.filter-color-${i} {
           background-color: ${color.style.background};
-          color: ${color.style.color} !important;
+          color: ${color.style.color};
         }`
       });
       styleNode.appendChild(document.createTextNode(classes.join('\n')));
@@ -106,6 +106,10 @@ class FileView extends Component {
       this.showOnlyFilteredCheck.checked = state.showOnlyFiltered;
       return state;
     });
+    let selectedLines = document.getElementsByClassName('selected');
+    if (selectedLines.length) {
+      selectedLines[0].scrollIntoView(false);
+    }
   }
 
   close() {

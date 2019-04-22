@@ -18,18 +18,16 @@ class FileContents extends Component {
   }
 
   render() {
-
     return (
       <div id="file-contents">
-        <table className={this.state.filtersApplied ? 'filters-applied': ''}
+        <table className={(this.state.filtersApplied ? 'filters-applied': '') +
+        (this.state.showOnlyFiltered ? ' show-only-filtered': '')}
                cellPadding={"0"}>
           <tbody>
           {
             this.state.fileData.map(line => {
-              let hideEntry = this.state.showOnlyFiltered && (!line.filterMatch || line.exclude);
-              return !hideEntry && <LogEntry line={line}
+              return <LogEntry line={line}
                                key={line.key}
-                               hideEntry={hideEntry}
                                lineClickHandler={this.props.lineClickHandler}
                                lineDoubleClickHandler={this.props.lineDoubleClickHandler} />
             })

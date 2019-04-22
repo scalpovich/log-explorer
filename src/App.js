@@ -25,6 +25,7 @@ function openFileDialog() {
     if (fileNames === undefined) {
       return;
     }
+    // ReactDOM.render(<App/>, document.getElementById('root'));
     ReactDOM.render(<FileView fileName={fileNames[0]} />, document.getElementById('root'));
   });
 }
