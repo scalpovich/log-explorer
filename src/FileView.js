@@ -5,9 +5,9 @@ import './css/helper.css';
 import ReactDOM from "react-dom";
 import App from "./App";
 import Filters from "./Filters"
-import FileContents from "./FileContents"
 import AddFilterModal from "./AddFilterModal"
 import FilterService from "./FilterService";
+import FileContentsLazy from "./FileContentsLazy";
 
 let fs = window.require('fs');
 const path = window.require('path');
@@ -53,7 +53,8 @@ class FileView extends Component {
       showOnlyFiltered: false,
       addFilterModal: {
         open: false
-      }
+      },
+      fileDataLength: 0
     };
     this.readFileData();
     window.require('electron').ipcRenderer.on('keyPress', (event, message) => {
@@ -134,8 +135,10 @@ class FileView extends Component {
             exclude: false
           };
         });
+      const fileDataLength = this.getFileDataLength();
       this.setState({
-        fileData: fileData
+        fileData,
+        fileDataLength
       });
       this.filterChanged();
     });
@@ -197,6 +200,10 @@ class FileView extends Component {
     this.applyFilters();
   }
 
+  getFileDataLength() {
+    return (this.state.showOnlyFiltered && this.state.filtersApplied ? fileData.filter(l => l.filterMatch && !l.exclude) : fileData).length;
+  }
+
   applyFilters() {
     let allFilters = getFilters();
     let filters = allFilters.filter(f => f.enabled && !f.exclude);
@@ -221,8 +228,10 @@ class FileView extends Component {
       line.className = '';
       line.exclude = false;
     });
+    const fileDataLength = this.getFileDataLength();
     this.setState({
-      fileData: fileData
+      fileData,
+      fileDataLength
     });
   }
 
@@ -255,11 +264,12 @@ class FileView extends Component {
             </div>
           </div>
         </div>
-        <FileContents fileData={this.state.fileData}
-                      filtersApplied={this.state.filtersApplied}
-                      showOnlyFiltered={this.state.showOnlyFiltered}
-                      lineClickHandler={this.lineClickHandler.bind(this)}
-                      lineDoubleClickHandler={this.lineDoubleClickHandler.bind(this)}/>
+        <FileContentsLazy fileData={this.state.fileData}
+                          fileDataLength={this.state.fileDataLength}
+                          filtersApplied={this.state.filtersApplied}
+                          showOnlyFiltered={this.state.showOnlyFiltered}
+                          lineClickHandler={this.lineClickHandler.bind(this)}
+                          lineDoubleClickHandler={this.lineDoubleClickHandler.bind(this)}/>
         <Filters filters={this.state.filters}
                  fileName={this.state.fileName}
                  getFilters={getFilters}

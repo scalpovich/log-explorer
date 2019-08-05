@@ -68,7 +68,7 @@
     padding-left: 10px;
 }
 
-#file-contents table.filters-applied td.line pre:not(.selected):not(.filter-match) {
+#file-contents.filters-applied table td.line pre:not(.selected):not(.filter-match) {
     color: gray;
 }
 

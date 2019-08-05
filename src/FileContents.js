@@ -19,9 +19,8 @@ class FileContents extends Component {
 
   render() {
     return (
-      <div id="file-contents">
-        <table className={(this.state.filtersApplied ? 'filters-applied': '') +
-        (this.state.showOnlyFiltered ? ' show-only-filtered': '')}
+      <div id="file-contents" className={(this.state.filtersApplied ? 'filters-applied': '')}>
+        <table className={(this.state.showOnlyFiltered ? ' show-only-filtered': '')}
                cellPadding={"0"}>
           <tbody>
           {
